@@ -3,6 +3,10 @@ import { FastifyPluginAsync } from "fastify";
 //تعريفات
 const login: FastifyPluginAsync = async (fastify): Promise<void> => {
     const use = await fastify.pg.connect();
+    // get 
+    fastify.get('/login',(request,reply)=>{
+        return reply.code(200).send({"message":"login page "})
+    })
     // انشاء تسجيل الدخول
     fastify.post(
         "/login",
