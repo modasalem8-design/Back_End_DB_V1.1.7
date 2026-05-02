@@ -2,6 +2,7 @@
 import { type FastifyPluginAsync } from "fastify";
 import bcrypt from "bcryptjs";
 import "dotenv/config";
+import'@fastify/jwt'
 // تعريف الدالة الاساسية
 const create: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     // متغير مؤقت
@@ -10,11 +11,10 @@ const create: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     //  const { name, pass } = request.body as any;}
     // للمتصفح
     fastify.get("/api_create", async (request, reply) => {
-        
         // const secret ="1234"
         // const hasw= await bcrypt.hash(secret,15)
         // reply.send(hasw)
-        return reply.send({ " message": "connect  true api_crud" });
+        return reply.send({ " message": "connected api_create" });
     });
     // انشاء حساب
     fastify.post(
@@ -28,9 +28,15 @@ const create: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
             try {
                 // fastify.decorate('db',use)
                 // تعريفات
+                
                 const { name, pass } = request.body as any;
                 const hash = await bcrypt.hash(pass, 10);
-
+                const data_user = {
+                    name: name,
+                };
+                // التأكد ان المستخدم الي بيشئ الحساب مش موجود
+               
+                const token = fastify.jwt.sign({ data_user });
                 //تعريف الsqlالي هيعمل انشاء مع تأمينة
                 const creat = await use.query(
                     "INSERT INTO user_post(name,pass) VALUES ($1,$2);",
@@ -41,13 +47,14 @@ const create: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
                         "message": "create account successfull",
                         name: name,
                         pass: hash,
+                        token:token
                     });
                 }
                 //الرجوع بي الخطأ
             } catch (err) {
                 console.log("err in :\n");
-                console.error(err);
-                return ({ "err": err });
+                console.error("err");
+                return ({ "err":"please try again and input anuther name or pass" });
             }
         },
     );

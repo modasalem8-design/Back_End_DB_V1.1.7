@@ -24,7 +24,8 @@ To learn Fastify, check out the [Fastify documentation](https://fastify.dev/docs
 ![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 # 1.Back-End-DB for Fastify
-
+(https://img.shields.io/badge/Back_End-Fastify-black)
+(https://img.shields.io/badge/devolpment-70%25-orange)
 ## back-end fastify instead express
 
 ### this system include  CURD  AND  system company for product 

@@ -1,4 +1,5 @@
-import { FastifyPluginAsync } from "fastify";
+import  { FastifyPluginAsync } from "fastify";
+
 
 //تعريفات
 const login: FastifyPluginAsync = async (fastify): Promise<void> => {
@@ -12,8 +13,11 @@ const login: FastifyPluginAsync = async (fastify): Promise<void> => {
         "/login",
         { schema: { body: { $ref: "userSchema#" } } },
         async (request, reply) => {
+            // التوكن
+           
             // تعريف الاسم وكلمة مرور واستلامهم من المستخدم
             const { name, pass } = request.body as any;
+            
             try {
                 const log = await use.query("SELECT * FROM user_post WHERE name=$1 ;", [name]
                 );
@@ -26,11 +30,13 @@ const login: FastifyPluginAsync = async (fastify): Promise<void> => {
                     return reply.code(201).send({
                         "message": "login  successfull",
                         name: name,
-                        pass: pass,
+                      
                     });
+                    //  token:token
                 } else {
                     return reply.code(401).send({ "error": "user undfind" });
                 }
+                console.log(pass)
             } catch (err) {
                 console.error(err), reply.code(501).send({ "err": err });
             } finally {
